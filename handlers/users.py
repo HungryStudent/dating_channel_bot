@@ -159,7 +159,7 @@ async def enter_my_size(message: Message, state: FSMContext):
         await states.CreateProfile.next()
     else:
         await state.update_data(is_move=False)
-        await message.answer("Укажите описание")
+        await message.answer("Укажите описание", reply_markup=user_kb.get_cancel())
         await states.CreateProfile.enter_description.set()
 
 
