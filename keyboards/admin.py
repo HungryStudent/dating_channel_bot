@@ -3,7 +3,7 @@ from aiogram.types import ReplyKeyboardMarkup, KeyboardButton, InlineKeyboardMar
 from aiogram.utils.callback_data import CallbackData
 
 change_callback = CallbackData("change", "param", "profile_id")
-admin_profile_callback = CallbackData("profile", "action", "profile_id")
+admin_profile_callback = CallbackData("profile", "action", "profile_id", "is_del")
 
 my_size_text = {"male": "Размер", "female": "Размер груди"}
 
@@ -17,7 +17,7 @@ reject = InlineKeyboardMarkup(row_width=1).add(InlineKeyboardButton("❌ ЗАЯ�
 approve = InlineKeyboardMarkup(row_width=1).add(InlineKeyboardButton("✅ ЗАЯВКА ОДОБРЕНА ✅", callback_data="empty"))
 
 
-def get_profile(profile_id, profile_data):
+def get_profile(profile_id, profile_data, is_del=0):
     kb = InlineKeyboardMarkup(row_width=2)
     kb.insert(InlineKeyboardButton("Изменить имя", callback_data=change_callback.new("name", profile_id)))
     if profile_data["age"] != 0:
@@ -36,6 +36,6 @@ def get_profile(profile_id, profile_data):
     kb.insert(InlineKeyboardButton("Изменить описание", callback_data=change_callback.new("description", profile_id)))
     if len(profile_data["photos"]) > 1:
         kb.add(InlineKeyboardButton("Посмотреть фото", callback_data=change_callback.new("photo", profile_id)))
-    kb.add(InlineKeyboardButton("✅Выложить", callback_data=admin_profile_callback.new("approve", profile_id)),
-           InlineKeyboardButton("❌Отказать", callback_data=admin_profile_callback.new("reject", profile_id)))
+    kb.add(InlineKeyboardButton("✅Выложить", callback_data=admin_profile_callback.new("approve", profile_id, is_del)),
+           InlineKeyboardButton("❌Отказать", callback_data=admin_profile_callback.new("reject", profile_id, is_del)))
     return kb

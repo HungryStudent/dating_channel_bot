@@ -33,10 +33,10 @@ async def check_pay(req: Request):
     msg_text += f"Описание объявления: {profile_data['description']}"
     if len(profile_data["photos"]) == 0:
         await bot.send_message(admin_chat_id, msg_text,
-                               reply_markup=admin_kb.get_profile(profile_id, profile_data))
+                               reply_markup=admin_kb.get_profile(profile_id, profile_data, 1))
     else:
         await bot.send_photo(admin_chat_id, profile_data["photos"][0], caption=msg_text,
-                             reply_markup=admin_kb.get_profile(profile_id, profile_data))
+                             reply_markup=admin_kb.get_profile(profile_id, profile_data, 1))
     await bot.send_message(profile_data["user_id"], "Оплата прошла успешно\nВаша заявка отправлена на модерацию",
                            reply_markup=admin_kb.ReplyKeyboardRemove())
 

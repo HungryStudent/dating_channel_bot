@@ -222,6 +222,6 @@ async def profile_action(call: CallbackQuery, callback_data: dict):
             for photo in profile_data["photos"]:
                 media.attach_photo(photo, caption=msg_text)
             msg = await call.bot.send_media_group(channel_id, media=media)
-        if profile_data["gender"] == "male":
+        if callback_data["is_del"] == "1":
             del_date = datetime.datetime.today() + datetime.timedelta(hours=46)
             scheduler.add_job(del_profile, 'date', run_date=del_date, args=[msg.message_id])
