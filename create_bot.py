@@ -1,5 +1,8 @@
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
 from aiogram.dispatcher import Dispatcher
+
+from apscheduler.schedulers.asyncio import AsyncIOScheduler
+
 from config import TOKEN, log_on
 from aiogram import Bot
 import logging
@@ -16,3 +19,4 @@ else:
 stor = MemoryStorage()
 bot = Bot(token=TOKEN)
 dp = Dispatcher(bot, storage=stor)
+scheduler = AsyncIOScheduler()

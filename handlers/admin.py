@@ -1,21 +1,21 @@
-from enum import Enum
-
-from aiogram.dispatcher import FSMContext
-from aiogram.dispatcher.filters import Text
 from aiogram.types import Message, CallbackQuery, MediaGroup
-from aiogram import Dispatcher
-from aiogram.utils.exceptions import BotKicked
+from aiogram.dispatcher import FSMContext
 
 from config import admin_chat_id, channel_id
-from create_bot import dp, log
-import states.admin as states
-from datetime import date, timedelta
+from create_bot import dp, scheduler, bot
 import keyboards.admin as admin_kb
+import states.admin as states
 from utils import db
+
+import datetime
 
 gender_text = {"male": "мужская", "female": "женская"}
 my_size_text = {"male": "Размер", "female": "Размер груди"}
 move_text = {True: "Да", False: "Нет"}
+
+
+async def del_profile(msg_id):
+    await bot.delete_message(channel_id, msg_id)
 
 
 async def show_profile(profile_id, message: Message):
@@ -214,11 +214,14 @@ async def profile_action(call: CallbackQuery, callback_data: dict):
             msg_text += f"Возможен переезд: {move_text[profile_data['is_move']]}\n"
         msg_text += f"Описание объявления: {profile_data['description']}"
         if len(profile_data["photos"]) == 0:
-            await call.bot.send_message(channel_id, msg_text)
+            msg = await call.bot.send_message(channel_id, msg_text)
         elif len(profile_data["photos"]) == 1:
-            await call.bot.send_photo(channel_id, profile_data["photos"][0], caption=msg_text)
+            msg = await call.bot.send_photo(channel_id, profile_data["photos"][0], caption=msg_text)
         else:
             media = MediaGroup()
             for photo in profile_data["photos"]:
                 media.attach_photo(photo, caption=msg_text)
-            await call.bot.send_media_group(channel_id, media=media)
+            msg = await call.bot.send_media_group(channel_id, media=media)
+        if profile_data["gender"] == "male":
+            del_date = datetime.datetime.today() + datetime.timedelta(hours=46)
+            scheduler.add_job(del_profile, 'date', run_date=del_date, args=[msg.message_id])

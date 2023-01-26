@@ -1,0 +1,9 @@
+TOKEN = "TOKEN"
+log_on = False
+
+admin_chat_id = -10
+channel_id = -1
+
+yoomoney_id = 4
+
+price = {"2": 200, "infinitely": 500}

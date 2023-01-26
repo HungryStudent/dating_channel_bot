@@ -1,6 +1,6 @@
-import sqlite3
 from contextlib import closing
 from sqlite3 import Cursor
+import sqlite3
 
 database = "utils/database.db"
 
