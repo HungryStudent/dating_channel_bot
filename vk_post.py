@@ -21,7 +21,7 @@ async def new_post(event: GroupTypes.WallPostNew):
     user = await vk_bot.api.users.get(event.object.signer_id, fields=["domain"])
     if not event.object.attachments:
         await bot.send_message(channel_id, event.object.text + "\nhttps://vk.com/" + user[0].domain,
-                               reply_markup=admin.bot_url)
+                               reply_markup=admin.bot_url, disable_web_page_preview=True)
     elif len(event.object.attachments) == 1:
         await bot.send_photo(channel_id, event.object.attachments[0].photo.sizes[-1].url,
                              caption=event.object.text + "\nhttps://vk.com/" + user[0].domain,
