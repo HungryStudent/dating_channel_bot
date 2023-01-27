@@ -191,7 +191,6 @@ async def enter_photo_skip(message: Message, state: FSMContext):
         else:
             profile_id = db.create_profile(message.from_user.id, profile_data)
             msg = await message.answer("Загрузка...", reply_markup=user_kb.ReplyKeyboardRemove())
-            await message.bot.delete_message(message.chat.id, msg.message_id)
             await message.answer("Выберите срок размещения анкеты в канале",
                                  reply_markup=user_kb.get_sub_types(profile_id))
         await state.finish()
@@ -209,7 +208,6 @@ async def enter_photo(message: Message, state: FSMContext):
         else:
             profile_id = db.create_profile(message.from_user.id, profile_data)
             msg = await message.answer("Загрузка...", reply_markup=user_kb.ReplyKeyboardRemove())
-            await message.bot.delete_message(message.chat.id, msg.message_id)
             await message.answer("Выберите срок размещения анкеты в канале",
                                  reply_markup=user_kb.get_sub_types(profile_id))
         await state.finish()
