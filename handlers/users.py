@@ -15,8 +15,8 @@ async def create_profile(profile_data, message: Message):
     my_size_text = {"male": "Размер", "female": "Размер груди"}
     move_text = {True: "Да", False: "Нет"}
     profile_id = db.create_profile(message.from_user.id, profile_data)
-    msg_text = f"""Новая {gender_text[profile_data['gender']]} анкета от @{message.from_user.username}:
-Имя: {profile_data['name']}
+    msg_text = f"Описание объявления: {profile_data['description']}\n"
+    msg_text = f"""Имя: {profile_data['name']}
 """
     if profile_data["age"] != 0:
         msg_text += f"Возраст: {profile_data['age']}\n"
@@ -31,14 +31,15 @@ async def create_profile(profile_data, message: Message):
         msg_text += f"{my_size_text[profile_data['gender']]}: {profile_data['my_size']}\n"
     if profile_data["gender"] == "female":
         msg_text += f"Возможен переезд: {move_text[profile_data['is_move']]}\n"
-    msg_text += f"Описание объявления: {profile_data['description']}"
+    msg_text += f"Связаться со мной: @{message.from_user.username}:"
+
     if len(profile_data["photos"]) == 0:
         await message.bot.send_message(admin_chat_id, msg_text,
                                        reply_markup=admin_kb.get_profile(profile_id, profile_data))
     else:
         await message.bot.send_photo(admin_chat_id, profile_data["photos"][0], caption=msg_text,
                                      reply_markup=admin_kb.get_profile(profile_id, profile_data))
-    await message.answer("Ваша заявка отправлена на модерацию", reply_markup=user_kb.ReplyKeyboardRemove())
+    await message.answer("Ваша заявка отправлена на модерацию", reply_markup=user_kb.menu)
 
 
 @dp.message_handler(commands='start')
@@ -53,7 +54,7 @@ async def start_message(message: Message):
 async def cancel(message: Message, state: FSMContext):
     await state.finish()
     if message.chat.id == admin_chat_id:
-        await message.answer("Ввод остановлен", reply_markup=user_kb.ReplyKeyboardRemove())
+        await message.answer("Ввод остановлен", reply_markup=user_kb.menu)
         return
     await message.answer("Ввод остановлен", reply_markup=user_kb.menu)
 

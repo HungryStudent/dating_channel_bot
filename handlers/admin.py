@@ -20,8 +20,8 @@ async def del_profile(msg_id):
 
 async def show_profile(profile_id, message: Message):
     profile_data = db.get_profile(profile_id)
-    msg_text = f"""Новая {gender_text[profile_data['gender']]} анкета от @{profile_data["username"]}:
-Имя: {profile_data['name']}
+    msg_text = f"Описание объявления: {profile_data['description']}\n"
+    msg_text += f"""Имя: {profile_data['name']}
 """
     if profile_data["age"] != 0:
         msg_text += f"Возраст: {profile_data['age']}\n"
@@ -36,7 +36,7 @@ async def show_profile(profile_id, message: Message):
         msg_text += f"{my_size_text[profile_data['gender']]}: {profile_data['my_size']}\n"
     if profile_data["gender"] == "female":
         msg_text += f"Возможен переезд: {move_text[profile_data['is_move']]}\n"
-    msg_text += f"Описание объявления: {profile_data['description']}"
+    msg_text += f"Связаться со мной: @{profile_data['username']}:"
     if len(profile_data["photos"]) == 0:
         await message.bot.send_message(admin_chat_id, msg_text,
                                        reply_markup=admin_kb.get_profile(profile_id, profile_data))
@@ -196,8 +196,8 @@ async def profile_action(call: CallbackQuery, callback_data: dict):
         await call.message.edit_reply_markup(admin_kb.reject)
     elif callback_data["action"] == "approve":
         await call.message.edit_reply_markup(admin_kb.approve)
-        msg_text = f"""@{profile_data["username"]}:
-Имя: {profile_data['name']}
+        msg_text = f"Описание объявления: {profile_data['description']}\n"
+        msg_text += f"""Имя: {profile_data['name']}
 """
         if profile_data["age"] != 0:
             msg_text += f"Возраст: {profile_data['age']}\n"
@@ -212,7 +212,7 @@ async def profile_action(call: CallbackQuery, callback_data: dict):
             msg_text += f"{my_size_text[profile_data['gender']]}: {profile_data['my_size']}\n"
         if profile_data["gender"] == "female":
             msg_text += f"Возможен переезд: {move_text[profile_data['is_move']]}\n"
-        msg_text += f"Описание объявления: {profile_data['description']}"
+        msg_text += f"Связаться со мной: @{profile_data['username']}:"
         if len(profile_data["photos"]) == 0:
             msg = await call.bot.send_message(channel_id, msg_text)
         elif len(profile_data["photos"]) == 1:
