@@ -216,9 +216,12 @@ async def profile_action(call: CallbackQuery, callback_data: dict):
         if len(profile_data["photos"]) == 0:
             msg = await call.bot.send_message(channel_id, msg_text, reply_markup=admin_kb.bot_url)
         elif len(profile_data["photos"]) == 1:
-            msg = await call.bot.send_photo(channel_id, profile_data["photos"][0], caption=msg_text, reply_markup=admin_kb.bot_url)
+            msg = await call.bot.send_photo(channel_id, profile_data["photos"][0], caption=msg_text,
+                                            reply_markup=admin_kb.bot_url)
         else:
             media = MediaGroup()
+            media.attach_photo(profile_data["photos"][0], caption=msg_text)
+            profile_data["photos"].pop(0)
             for photo in profile_data["photos"]:
                 media.attach_photo(photo, caption=msg_text)
             msg = await call.bot.send_media_group(channel_id, media=media)
