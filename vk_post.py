@@ -19,8 +19,6 @@ async def new_post(event: GroupTypes.WallPostNew):
     if event.object.post_type.value != "post":
         return
     user = await vk_bot.api.users.get(event.object.signer_id, fields=["domain"])
-    print(event.object.signer_id)
-    print(user[0].domain)
     if not event.object.attachments:
         await bot.send_message(channel_id, event.object.text + "\nhttps://vk.com/" + user[0].domain,
                                reply_markup=admin.bot_url)
