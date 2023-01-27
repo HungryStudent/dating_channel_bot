@@ -206,6 +206,8 @@ async def enter_photo(message: Message, state: FSMContext):
             await create_profile(profile_data, message)
         else:
             profile_id = db.create_profile(message.from_user.id, profile_data)
+            msg = await message.answer("Загрузка...", reply_markup=user_kb.ReplyKeyboardRemove())
+            await message.bot.delete_message(message.chat.id, msg.message_id)
             await message.answer("Выберите срок размещения анкеты в канале",
                                  reply_markup=user_kb.get_sub_types(profile_id))
         await state.finish()
@@ -220,5 +222,4 @@ async def choose_sub_type(call: CallbackQuery, callback_data: dict):
 
     await call.message.edit_text("После оплаты объявление будет размещено",
                                  reply_markup=user_kb.get_pay(profile_id, sub_type))
-    msg = await call.message.answer("Загрузка...", reply_markup=user_kb.ReplyKeyboardRemove())
-    await call.bot.delete_message(call.message.chat.id, msg.message_id)
+
