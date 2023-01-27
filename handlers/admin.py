@@ -20,7 +20,7 @@ async def del_profile(msg_id):
 
 async def show_profile(profile_id, message: Message):
     profile_data = db.get_profile(profile_id)
-    msg_text = f"Описание объявления: {profile_data['description']}\n"
+    msg_text = f"{profile_data['description']}\n"
     msg_text += f"""Имя: {profile_data['name']}
 """
     if profile_data["age"] != 0:
@@ -196,7 +196,7 @@ async def profile_action(call: CallbackQuery, callback_data: dict):
         await call.message.edit_reply_markup(admin_kb.reject)
     elif callback_data["action"] == "approve":
         await call.message.edit_reply_markup(admin_kb.approve)
-        msg_text = f"Описание объявления: {profile_data['description']}\n"
+        msg_text = f"{profile_data['description']}\n"
         msg_text += f"""Имя: {profile_data['name']}
 """
         if profile_data["age"] != 0:

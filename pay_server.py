@@ -15,7 +15,7 @@ async def check_pay(req: Request):
     profile_id = int(item["label"])
     profile_data = get_profile(profile_id)
     move_text = {True: "Да", False: "Нет"}
-    msg_text = f"Описание объявления: {profile_data['description']}\n"
+    msg_text = f"{profile_data['description']}\n"
     msg_text = f"""Имя: {profile_data['name']}
 """
     if profile_data["age"] != 0:

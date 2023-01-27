@@ -15,7 +15,7 @@ async def create_profile(profile_data, message: Message):
     my_size_text = {"male": "Размер", "female": "Размер груди"}
     move_text = {True: "Да", False: "Нет"}
     profile_id = db.create_profile(message.from_user.id, profile_data)
-    msg_text = f"Описание объявления: {profile_data['description']}\n"
+    msg_text = f"{profile_data['description']}\n"
     msg_text = f"""Имя: {profile_data['name']}
 """
     if profile_data["age"] != 0:
