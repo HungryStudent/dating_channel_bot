@@ -218,4 +218,7 @@ async def choose_sub_type(call: CallbackQuery, callback_data: dict):
     sub_type = callback_data["days"]
     profile_id = int(callback_data["profile_id"])
 
-    await call.message.edit_text("Оплатите", reply_markup=user_kb.get_pay(profile_id, sub_type))
+    await call.message.edit_text("После оплаты объявление будет размещено",
+                                 reply_markup=user_kb.get_pay(profile_id, sub_type))
+    msg = await call.message.answer("Загрузка...", reply_markup=user_kb.ReplyKeyboardRemove())
+    await call.bot.delete_message(call.message.chat.id, msg.message_id)
