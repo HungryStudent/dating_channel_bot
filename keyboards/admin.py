@@ -16,6 +16,9 @@ move = ReplyKeyboardMarkup(resize_keyboard=True, row_width=2).add(KeyboardButton
 reject = InlineKeyboardMarkup(row_width=1).add(InlineKeyboardButton("❌ ЗАЯВКА ОТКЛОНЕНА ❌", callback_data="empty"))
 approve = InlineKeyboardMarkup(row_width=1).add(InlineKeyboardButton("✅ ЗАЯВКА ОДОБРЕНА ✅", callback_data="empty"))
 
+bot_url = InlineKeyboardMarkup(row_width=1).add(
+    InlineKeyboardButton("Разместить объявление", url="https://t.me/Sponsor_soderganok_bot"))
+
 
 def get_profile(profile_id, profile_data, is_del=0):
     kb = InlineKeyboardMarkup(row_width=2)

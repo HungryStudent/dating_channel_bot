@@ -214,9 +214,9 @@ async def profile_action(call: CallbackQuery, callback_data: dict):
             msg_text += f"Возможен переезд: {move_text[profile_data['is_move']]}\n"
         msg_text += f"Связаться со мной: @{profile_data['username']}:"
         if len(profile_data["photos"]) == 0:
-            msg = await call.bot.send_message(channel_id, msg_text)
+            msg = await call.bot.send_message(channel_id, msg_text, reply_markup=admin_kb.bot_url)
         elif len(profile_data["photos"]) == 1:
-            msg = await call.bot.send_photo(channel_id, profile_data["photos"][0], caption=msg_text)
+            msg = await call.bot.send_photo(channel_id, profile_data["photos"][0], caption=msg_text, reply_markup=admin_kb.bot_url)
         else:
             media = MediaGroup()
             for photo in profile_data["photos"]:
