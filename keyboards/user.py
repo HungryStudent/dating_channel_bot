@@ -16,8 +16,8 @@ move = ReplyKeyboardMarkup(resize_keyboard=True, row_width=2).add(KeyboardButton
 
 def get_sub_types(profile_id):
     return InlineKeyboardMarkup(row_width=1).add(
-        InlineKeyboardButton("2 дня", callback_data=sub_type_callback.new("2", profile_id)),
-        InlineKeyboardButton("Бессрочно", callback_data=sub_type_callback.new("infinitely", profile_id)))
+        InlineKeyboardButton("2 дня - 500 рублей", callback_data=sub_type_callback.new("2", profile_id)),
+        InlineKeyboardButton("Бессрочно - 1000 рублей", callback_data=sub_type_callback.new("infinitely", profile_id)))
 
 
 def get_cancel(skip=False):
