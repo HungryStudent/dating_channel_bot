@@ -220,6 +220,7 @@ async def choose_sub_type(call: CallbackQuery, callback_data: dict):
     sub_type = callback_data["days"]
     profile_id = int(callback_data["profile_id"])
 
-    await call.message.edit_text("После оплаты объявление будет размещено",
+    await call.message.edit_text("""Вам необходимо оплатить выбранное размещение. 
+Если Вы хотите изменить тариф, введите "Отмена" и создайте анкету заново. 
+Для оплаты размещения анкеты необходимо перейти по ссылке и выбрать удобный для вас вариант оплаты, осле оплаты Ваша анкета будет размещена.""",
                                  reply_markup=user_kb.get_pay(profile_id, sub_type))
-
