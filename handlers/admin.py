@@ -223,7 +223,7 @@ async def profile_action(call: CallbackQuery, callback_data: dict):
             media.attach_photo(profile_data["photos"][0], caption=msg_text)
             profile_data["photos"].pop(0)
             for photo in profile_data["photos"]:
-                media.attach_photo(photo, caption=msg_text)
+                media.attach_photo(photo)
             msg = await call.bot.send_media_group(channel_id, media=media)
         if callback_data["is_del"] == "1":
             del_date = datetime.datetime.today() + datetime.timedelta(hours=46)
