@@ -42,8 +42,9 @@ async def create_profile(profile_data, message: Message):
     await message.answer("Ваша заявка отправлена на модерацию", reply_markup=user_kb.menu)
 
 
-@dp.message_handler(commands='start')
-async def start_message(message: Message):
+@dp.message_handler(commands='start', state="*")
+async def start_message(message: Message, state: FSMContext):
+    await state.finish()
     user = db.get_user(message.from_user.id)
     if user is None:
         db.add_user(message.from_user.id, message.from_user.username, message.from_user.first_name)
